@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\StoreProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $products = Product::query()
+            ->latest()->paginate(10);
+
+        return view('products.index', [
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -19,15 +27,17 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        Product::create($request->validated());
+
+        return redirect()->route('products.index');
     }
 
     /**

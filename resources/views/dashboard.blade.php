@@ -12,57 +12,6 @@
         <div class="flex"></div>
     </nav>
 
-    <div class="overflow-auto">
-        <table class="min-w-full">
-            <thead class="bg-gray-100 border-b">
-                <tr>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        #
-                    </th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Name
-                    </th>
-                    <th v-if="search" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Path
-                    </th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Owner
-                    </th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Last Modified
-                    </th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Size
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr class="border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-yellow-500">
-                        1
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center">
-                        asdasd
-                    </td>
-                    <td v-if="search" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        asdasd
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        adasdas
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        asdasd
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        asdasd
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    {{-- Dashboard --}}
     <div class="grid grid-cols-4 gap-4 mb-4 mt-4">
         <div class="flex items-center justify-center h-24 rounded-sm bg-gray-50">
             <p class="text-2xl text-gray-400">
