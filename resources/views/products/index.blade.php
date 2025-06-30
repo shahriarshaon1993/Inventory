@@ -17,6 +17,8 @@
     </nav>
 
     <div class="overflow-auto">
+        <x-alert-message />
+
         <table class="min-w-full">
             <thead class="bg-gray-100 border-b">
                 <tr>
@@ -39,6 +41,9 @@
                         Current stock
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Created at
+                    </th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Actions
                     </th>
                 </tr>
@@ -46,7 +51,7 @@
 
             <tbody>
                 @forelse ($products as $product)
-                    <tr class="border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer">
+                    <tr class="border-b [&:not(:last-child)]:border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $loop->iteration }}
                         </td>
@@ -66,7 +71,20 @@
                             {{ $product->current_stock }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            Edit|Delete
+                            {{ $product->created_at->format('M d, Y') }}
+                        </td>
+                        <td class="flex gap-2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <a href="{{ route('products.edit', $product->id) }}" class="hover:underline text-blue-500 hover:text-blue-600">
+                                <x-icon.pencil-square class="size-5"/>
+                            </a>
+
+                            <form method="POST" action="{{ route('products.destroy', $product->id) }}" class="inline delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-600 hover:underline delete-button">
+                                    <x-icon.trash class="size-5" />
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -79,4 +97,18 @@
             {{ $products->links() }}
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.delete-form').forEach(function (form) {
+                    form.addEventListener('submit', function (e) {
+                        if (!confirm('Are you sure you want to delete this product?')) {
+                            e.preventDefault();
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 </x-app-layout>

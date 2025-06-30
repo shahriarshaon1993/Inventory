@@ -17,11 +17,11 @@ class UpdateProductRequest extends BaseProductRequest
     {
         return array_merge($this->commonRules(), [
             'name' => [
-                'required', 
-                'string', 
-                'min:3', 
-                'max: 100', 
-                Rule::unique('products')->ignore($this->product)
+                'required',
+                'string',
+                'min:3',
+                'max:100',
+                Rule::unique('products')->ignore($this->product->id),
             ],
         ]);
     }
