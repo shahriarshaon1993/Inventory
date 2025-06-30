@@ -16,20 +16,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="h-screen bg-gray-50 flex w-full gap-4">
-            <div class="min-w-[200px]">
-                <a href="{{ route('dashboard') }}" class="h-[80px] px-3 flex items-center gap-3">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    Inventory
-                </a>
-
-                <div class="px-3">
-                    <div class="py-3">
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            Dashboard
-                        </x-nav-link>
-                    </div>
-                </div>
-            </div>
+            @include('layouts.navigation')
 
             <main class="flex flex-col flex-1 p-4 overflow-hidden">
                 <div class="flex items-center justify-between w-full mb-3">
@@ -73,24 +60,5 @@
                 </div>
             </main>
         </div>
-
-
-        {{-- <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div> --}}
     </body>
 </html>
