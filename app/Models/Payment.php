@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property int $id
@@ -49,5 +50,15 @@ class Payment extends Model
     public function sale(): BelongsTo
     {
         return $this->belongsTo(Sale::class);
+    }
+
+    /**
+     * Relation with journals
+     * 
+     * @return MorphMany<Journal, Payment>
+     */
+    public function journals(): MorphMany
+    {
+        return $this->morphMany(Journal::class, 'reference');
     }
 }

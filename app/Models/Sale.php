@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property int $id
@@ -44,5 +45,15 @@ class Sale extends Model
         return [
             'date' => 'date',
         ];
+    }
+
+    /**
+     * Relation with journals
+     * 
+     * @return MorphMany<Journal, Payment>
+     */
+    public function journals(): MorphMany
+    {
+        return $this->morphMany(Journal::class, 'reference');
     }
 }
