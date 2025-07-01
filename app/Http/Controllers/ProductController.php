@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Products\CreateProduct;
+use App\Actions\Products\UpdateCreate;
+use App\Actions\Products\UpdateProduct;
 use App\Models\Product;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Redirect;
@@ -35,21 +38,17 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(StoreProductRequest $request, CreateProduct $action): RedirectResponse
     {
-        Product::create($request->validated());
+        try {
+            $action->handle($request->validated());
 
-        return Redirect::route('products.index')
+            return Redirect::route('products.index')
                 ->with('success', 'Product has been created successfully!');
-                
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        } catch (\Exception $e) {
+            return Redirect::route('products.index')
+                ->with('error', 'Failed to create product: ' . $e->getMessage());
+        }       
     }
 
     /**
@@ -63,11 +62,15 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product): RedirectResponse
+    public function update(UpdateProductRequest $request, Product $product, UpdateProduct $action): RedirectResponse
     {
-        $product->update($request->validated());
+        try {
+            $action->handle($product, $request->validated());
 
-        return back()->with('success', 'Product has been updated successfully!');
+            return back()->with('success', 'Product has been updated successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to create product: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -75,6 +78,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
+        if ($product->stocks()->exists()) {
+            return back()->with([
+                'woring' => 'Cannot delete product with stock history.'
+            ]);
+        }
+
         $product->delete();
 
         return back()->with('success', 'Product has been deleted successfully!');

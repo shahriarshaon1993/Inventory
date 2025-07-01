@@ -6,6 +6,7 @@ use Illuminate\Support\Carbon;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -34,4 +35,14 @@ class Product extends Model
         'opening_stock',
         'current_stock'
     ];
+
+    /**
+     * Relation with stocks
+     * 
+     * @return HasMany<Stock, Product>
+     */
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
 }
