@@ -80,7 +80,7 @@ class CreateSale
             'vat_amount' => $saleData['vat_amount'],
             'total_amount' => $saleData['total_amount'],
             'paid_amount' => $saleData['paid_amount'],
-            'due_amount' => $saleData['due_amount'],
+            'due_amount' => $saleData['due_amount'] < 0 ? 0: $saleData['due_amount'],
         ]);
     }
 
@@ -162,7 +162,7 @@ class CreateSale
             [
                 'date' => $saleData['date'],
                 'type' => 'discount',
-                'amount' => $saleData['discount'],
+                'amount' => $saleData['discount'] < 0 ? 0: $saleData['discount'],
                 'reference_type' => Sale::class,
                 'reference_id' => $sale->id,
                 'created_at' => now(),
@@ -185,7 +185,16 @@ class CreateSale
                 'reference_id' => $sale->id,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
+            [
+                'date' => $saleData['date'],
+                'type' => 'due',
+                'amount' => $saleData['due_amount'] < 0 ? 0: $saleData['due_amount'],
+                'reference_type' => Sale::class,
+                'reference_id' => $sale->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         // Insert only non-zero entries

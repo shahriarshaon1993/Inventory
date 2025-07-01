@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $amount
  * @property int $reference_id
  * @property string $reference_type
- * @property 'sale'|'discount'|'vat'|'payment' $type
  * @property Carbon|null $date
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property 'opening'|'sale'|'due'|'discount'|'vat'|'payment' $type
  */
 class Journal extends Model
 {
