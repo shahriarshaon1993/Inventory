@@ -7,6 +7,7 @@ use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property int $id
@@ -44,5 +45,15 @@ class Product extends Model
     public function stocks(): HasMany
     {
         return $this->hasMany(Stock::class);
+    }
+
+    /**
+     * Relation with journals
+     * 
+     * @return MorphMany<Journal, Product>
+     */
+    public function journals(): MorphMany
+    {
+        return $this->morphMany(Journal::class, 'reference');
     }
 }

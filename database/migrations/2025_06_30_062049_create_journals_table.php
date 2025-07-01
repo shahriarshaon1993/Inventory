@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->enum('type', ['sale', 'discount', 'vat', 'payment']);
+            $table->enum('type', ['opening', 'sale', 'discount', 'vat', 'payment']);
             $table->decimal('amount', 10, 2);
             $table->string('reference_type');
             $table->unsignedBigInteger('reference_id');

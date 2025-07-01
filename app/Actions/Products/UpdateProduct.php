@@ -14,11 +14,15 @@ class UpdateProduct
 
             if ($product->current_stock > 0) {
                 $product->stocks()->update([
-                    'date' => now()->toDateString(),
-                    'type' => 'opening',
                     'quantity' => $product->current_stock,
                     'price' => $product->purchase_price,
                 ]);
+
+                $product->journals()
+                    ->where('type', 'opening')
+                    ->update([
+                        'amount' => $product->current_stock * $product->purchase_price,
+                    ]);
             }
 
             return $product;

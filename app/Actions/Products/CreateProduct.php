@@ -2,6 +2,7 @@
 
 namespace App\Actions\Products;
 
+use App\Models\Journal;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -23,6 +24,14 @@ class CreateProduct
                     'type' => 'opening',
                     'quantity' => $product->current_stock,
                     'price' => $product->purchase_price,
+                ]);
+
+                $product->journals()->create([
+                    'date' => now()->toDateString(),
+                    'type' => 'opening',
+                    'amount' => $product->current_stock * $product->purchase_price,
+                    'reference_type' => Product::class,
+                    'reference_id' => $product->id,
                 ]);
             }
 

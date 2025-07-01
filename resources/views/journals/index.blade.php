@@ -57,6 +57,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             @if($journal->reference_type === 'App\Models\Sale')
                                 Sale #{{ $journal->reference_id }}
+                            @elseif ($journal->reference_type === 'App\Models\Product')
+                                Product #{{ $journal->reference_id }}
                             @else
                                 {{ $journal->reference_type }} #{{ $journal->reference_id }}
                             @endif
