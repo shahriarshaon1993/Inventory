@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property 'opening'|'purchase'|'sale' $type
+ * @property 'opening'|'purchase'|'sale'|'reversal' $type
  * @property int $quantity
  * @property string $price
  * @property Carbon|null $date

@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Support\Carbon;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int $id
@@ -17,6 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Model
 {
+    /** @use HasFactory<ProductFactory> */
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
