@@ -2,7 +2,7 @@
     <nav class="flex items-center justify-between py-2 mb-3">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
-                <a href="{{ route('sales.index') }}" class="select-items">
+                <a href="{{ route('sales.index') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 gap-2">
                     <x-icon.home class="w-4 h-4" />
                     Sales
                 </a>
@@ -20,6 +20,8 @@
     </nav>
 
     <div class="overflow-auto">
+        <x-validation-message />
+
         <div class="max-w-7xl mx-auto space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
@@ -61,13 +63,13 @@
 
                         <div>
                             <x-input-label for="discount" value="Discount (Flat)" />
-                            <x-text-input id="discount" name="discount" type="number" class="mt-1 block w-full" :value="old('discount')" autocomplete="discount"/>
+                            <x-text-input id="discount" name="discount" type="number" class="mt-1 block w-full" :value="old('discount', 0)" autocomplete="discount"/>
                             <x-input-error class="mt-2" :messages="$errors->get('discount')" />
                         </div>
 
                         <div>
                             <x-input-label for="vat" value="VAT (%)" />
-                            <x-text-input id="vat" name="vat" type="number" class="mt-1 block w-full" :value="old('vat')" step="0.01" autocomplete="vat"/>
+                            <x-text-input id="vat" name="vat" type="number" class="mt-1 block w-full" :value="old('vat', 0)" step="0.01" autocomplete="vat"/>
                             <x-input-error class="mt-2" :messages="$errors->get('discount')" />
                         </div>
 
