@@ -17,6 +17,10 @@
             Sales
         </x-nav-link>
 
+        <x-nav-link :href="route('sale-items.index')" :active="request()->routeIs('sale-items.*')">
+            Sale items
+        </x-nav-link>
+
         <x-nav-link :href="route('stocks.index')" :active="request()->routeIs('stocks.*')">
             Stocks
         </x-nav-link>

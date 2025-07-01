@@ -4,6 +4,7 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SaleItemController;
 use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('sales', SaleController::class)
         ->except('show', 'edit', 'update');
+
+    Route::get('sale-items', SaleItemController::class)->name('sale-items.index');
 
     Route::get('stocks', StockController::class)->name('stocks.index');
 
