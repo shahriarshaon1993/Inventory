@@ -16,5 +16,9 @@
         <x-nav-link :href="route('sales.index')" :active="request()->routeIs('sales.*')">
             Sales
         </x-nav-link>
+
+        <x-nav-link :href="route('stocks.index')" :active="request()->routeIs('stocks.*')">
+            Stocks
+        </x-nav-link>
     </div>
 </div>
