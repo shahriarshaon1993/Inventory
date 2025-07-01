@@ -20,5 +20,9 @@
         <x-nav-link :href="route('stocks.index')" :active="request()->routeIs('stocks.*')">
             Stocks
         </x-nav-link>
+
+        <x-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.*')">
+            Journals
+        </x-nav-link>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
@@ -24,6 +25,8 @@ Route::middleware('auth')->group(function () {
         ->except('show', 'edit', 'update');
 
     Route::get('stocks', StockController::class)->name('stocks.index');
+
+    Route::get('journals', JournalController::class)->name('journals.index');
 });
 
 require __DIR__.'/auth.php';

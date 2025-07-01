@@ -32,6 +32,18 @@ class Journal extends Model
     ];
 
     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+        ];
+    }
+
+    /**
      *  Get the parent reference model (sale, payment, etc.).
      * 
      * @return MorphTo<Model, Journal>
