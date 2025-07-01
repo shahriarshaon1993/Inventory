@@ -188,6 +188,7 @@ class CreateSale
             ]
         ];
 
-        Journal::insert($journalEntries);
+        // Insert only non-zero entries
+        Journal::insert(array_filter($journalEntries, fn($entry) => $entry['amount'] != 0));
     }
 }
