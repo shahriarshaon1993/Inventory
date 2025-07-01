@@ -25,6 +25,10 @@
             Stocks
         </x-nav-link>
 
+        <x-nav-link :href="route('payments.index')" :active="request()->routeIs('payments.*')">
+            Payments
+        </x-nav-link>
+
         <x-nav-link :href="route('journals.index')" :active="request()->routeIs('journals.*')">
             Journals
         </x-nav-link>
