@@ -13,10 +13,12 @@ class UpdateProduct
             $product->update($attributes);
 
             if ($product->current_stock > 0) {
-                $product->stocks()->update([
-                    'quantity' => $product->current_stock,
-                    'price' => $product->purchase_price,
-                ]);
+                $product->stocks()
+                    ->where('type', 'opening')
+                    ->update([
+                        'quantity' => $product->current_stock,
+                        'price' => $product->purchase_price,
+                    ]);
 
                 $product->journals()
                     ->where('type', 'opening')
