@@ -5,14 +5,8 @@ namespace App\Http\Controllers;
 use App\Actions\Sales\CreateSale;
 use App\Actions\Sales\DeleteSale;
 use App\Http\Requests\Sales\StoreSaleRequest;
-use App\Models\Journal;
-use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Sale;
-use App\Models\SaleItem;
-use App\Models\Stock;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 

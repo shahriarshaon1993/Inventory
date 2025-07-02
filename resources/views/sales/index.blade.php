@@ -26,13 +26,13 @@
                         #
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Subtotal
+                    </th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Discount
                     </th>
                     <th v-if="search" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Vat
-                    </th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Subtotal
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Total amount
@@ -59,13 +59,13 @@
                             {{ $loop->iteration }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $sale->subtotal }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $sale->discount }}
                         </td>
                         <td v-if="search" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $sale->vat }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $sale->subtotal }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $sale->total_amount }}

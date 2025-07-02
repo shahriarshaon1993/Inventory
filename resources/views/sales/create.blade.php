@@ -40,14 +40,14 @@
                             <div class="product-row flex gap-2">
                                 <select name="products[0][product_id]" class="flex-1 mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block">
                                     @foreach($products as $product)
-                                        <option value="{{ $product->id }}">
+                                        <option value="{{ $product->id }}" data-price="{{ $product->sell_price }}">
                                             {{ $product->name }} [Price: {{ $product->sell_price }}] - [Stock: {{ $product->current_stock }}]
                                         </option>
                                     @endforeach
                                 </select>
 
-                                <x-text-input name="products[0][quantity]" type="number" min="1" class="mt-1 block w-full" placeholder="Qty"/>
-                                <x-text-input name="products[0][unit_price]" type="number" step="0.01" class="mt-1 block w-full" placeholder="Unit Price"/>
+                                <x-text-input name="products[0][quantity]" type="number" min="1" class="quantity-input mt-1 block w-full" placeholder="Qty"/>
+                                <x-text-input name="products[0][unit_price]" type="number" step="0.01" class="unit-price-input mt-1 block w-full" placeholder="Unit Price"/>
                             </div>
                         </div>
 
@@ -90,36 +90,88 @@
 
 @push('scripts')
     <script>
-        let productIndex = 1;
+        $(document).ready(function() {
+            let productIndex = 1;
 
-        function addProductRow() {
-            const container = document.getElementById('products');
-            const row = document.createElement('div');
-            row.classList.add('product-row');
-            row.classList.add('flex');
-            row.classList.add('gap-2');
+            // Calculate Total Amount
+            function calculateTotalAmount() {
+                let subtotal = 0;
+                $('#products .flex.gap-2').each(function() {
+                    const $row = $(this);
+                    const quantity = parseFloat($row.find('.quantity-input').val()) || 0;
+                    const unitPrice = parseFloat($row.find('.unit-price-input').val()) || 0;
+                    subtotal += quantity * unitPrice;
+                });
 
-            row.innerHTML = `
-                <select name="products[${productIndex}][product_id]" class="flex-1 mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block">
-                    @foreach($products as $product)
-                        <option value="{{ $product->id }}">
-                            {{ $product->name }} [Price: {{ $product->sell_price }}] - [Stock: {{ $product->current_stock }}]
-                        </option>
-                    @endforeach
-                </select>
-                <x-text-input name="products[${productIndex}][quantity]" type="number" min="1" class="mt-1 block w-full" placeholder="Qty"/>
-                <x-text-input name="products[${productIndex}][unit_price]" type="number" step="0.01" class="mt-1 block w-full" placeholder="Unit Price"/>
-                <button type="button" onclick="removeRow(this)">x</button>
-            `;
+                const discount = parseFloat($('#discount').val()) || 0;
+                const vatInput = parseFloat($('#vat').val()) || 0;
 
-            container.appendChild(row);
-            productIndex++;
-        }
+                const subtotalAfterDiscount = subtotal - discount;
+                const vatAmount = (subtotalAfterDiscount * vatInput) / 100;
+                const totalAmount = subtotalAfterDiscount + vatAmount;
 
-        function removeRow(button) {
-            const row = button.parentNode;
-            row.remove();
-        }
+                $('#paid_amount').val(totalAmount.toFixed(2));
+            }
+
+            // Set unit price based on selected product
+            function setUnitPrice($row) {
+                const $select = $row.find('select');
+                const $quantityInput = $row.find('.quantity-input');
+                const $unitPriceInput = $row.find('.unit-price-input');
+
+                $quantityInput.on('input', function() {
+                    if ($(this).val() > 0) {
+                        const selectedOption = $select.find('option:selected');
+                        const sellPrice = selectedOption.data('price');
+                        $unitPriceInput.val(sellPrice);
+                    } else {
+                        $unitPriceInput.val('');
+                    }
+                    calculateTotalAmount();
+                });
+
+                $select.on('change', function() {
+                    if ($quantityInput.val() > 0) {
+                        const selectedOption = $(this).find('option:selected');
+                        const sellPrice = selectedOption.data('price');
+                        $unitPriceInput.val(sellPrice);
+                    }
+                    calculateTotalAmount();
+                });
+            }
+
+            // Apply to existing row
+            setUnitPrice($('#products').find('.product-row').first());
+
+            // Update total when discount or vat changes
+            $('#discount, #vat').on('input', function() {
+                calculateTotalAmount();
+            });
+
+            window.addProductRow = function() {
+                const $row = $('<div>').addClass('flex gap-2').html(`
+                    <select name="products[${productIndex}][product_id]" class="flex-1 mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block">
+                        @foreach($products as $product)
+                            <option value="{{ $product->id }}" data-price="{{ $product->sell_price }}">
+                                {{ $product->name }} [Price: {{ $product->sell_price }}] - [Stock: {{ $product->current_stock }}]
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-text-input name="products[${productIndex}][quantity]" type="number" min="1" class="quantity-input mt-1 block w-full" placeholder="Qty"/>
+                    <x-text-input name="products[${productIndex}][unit_price]" type="number" step="0.01" class="unit-price-input mt-1 block w-full" placeholder="Unit Price"/>
+                    <button type="button" onclick="removeRow(this)">x</button>
+                `);
+
+                $('#products').append($row);
+                setUnitPrice($row);
+                productIndex++;
+            };
+
+            window.removeRow = function(button) {
+                $(button).parent().remove();
+                calculateTotalAmount();
+            };
+        });
     </script>
 @endpush
 </x-app-layout>
