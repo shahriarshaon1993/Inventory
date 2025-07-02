@@ -32,7 +32,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('payments', PaymentController::class)->name('payments.index');
 
-    Route::get('journals', JournalController::class)->name('journals.index');
+    Route::get('journals', [JournalController::class, 'index'])->name('journals.index');
+    Route::get('journals/{id}/{slug}', [JournalController::class, 'show'])->name('journals.show');
 });
 
 require __DIR__.'/auth.php';

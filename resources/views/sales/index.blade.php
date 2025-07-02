@@ -83,8 +83,8 @@
                             <form method="POST" action="{{ route('sales.destroy', $sale->id) }}" class="inline delete-form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-600 hover:underline delete-button">
-                                    <x-icon.trash class="size-5" />
+                                <button type="submit" class="p-1 bg-red-500 hover:bg-red-600 shadow rounded text-white delete-button">
+                                    <x-icon.trash class="size-4" />
                                 </button>
                             </form>
                         </td>
@@ -102,13 +102,11 @@
 
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.querySelectorAll('.delete-form').forEach(function (form) {
-                    form.addEventListener('submit', function (e) {
-                        if (!confirm('Are you sure you want to delete this sale?')) {
-                            e.preventDefault();
-                        }
-                    });
+            $(document).ready(function() {
+                $('.delete-form').on('submit', function(e) {
+                    if (!confirm('Are you sure you want to delete this sale?')) {
+                        e.preventDefault();
+                    }
                 });
             });
         </script>

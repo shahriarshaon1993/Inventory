@@ -74,15 +74,15 @@
                             {{ $product->created_at->format('M d, Y') }}
                         </td>
                         <td class="flex gap-2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            <a href="{{ route('products.edit', $product->id) }}" class="hover:underline text-blue-500 hover:text-blue-600">
-                                <x-icon.pencil-square class="size-5"/>
+                            <a href="{{ route('products.edit', $product->id) }}" class="p-1 rounded shadow bg-blue-500 hover:bg-blue-600 text-white">
+                                <x-icon.pencil-square class="size-4"/>
                             </a>
 
                             <form method="POST" action="{{ route('products.destroy', $product->id) }}" class="inline delete-form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-600 hover:underline delete-button">
-                                    <x-icon.trash class="size-5" />
+                                <button type="submit" class="p-1 bg-red-500 hover:bg-red-600 rounded shadow delete-button text-white">
+                                    <x-icon.trash class="size-4" />
                                 </button>
                             </form>
                         </td>
@@ -100,13 +100,11 @@
 
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.querySelectorAll('.delete-form').forEach(function (form) {
-                    form.addEventListener('submit', function (e) {
-                        if (!confirm('Are you sure you want to delete this product?')) {
-                            e.preventDefault();
-                        }
-                    });
+            $(document).ready(function() {
+                $('.delete-form').on('submit', function(e) {
+                    if (!confirm('Are you sure you want to delete this sale?')) {
+                        e.preventDefault();
+                    }
                 });
             });
         </script>

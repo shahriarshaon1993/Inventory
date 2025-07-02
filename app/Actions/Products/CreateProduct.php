@@ -30,6 +30,7 @@ class CreateProduct
                     'date' => now()->toDateString(),
                     'type' => 'opening',
                     'amount' => $product->current_stock * $product->purchase_price,
+                    'slug' => 'product',
                     'reference_type' => Product::class,
                     'reference_id' => $product->id,
                 ]);

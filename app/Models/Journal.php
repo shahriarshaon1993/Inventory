@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 /**
  * @property int $id
  * @property string $amount
+ * @property string $slug
  * @property int $reference_id
  * @property string $reference_type
  * @property Carbon|null $date
@@ -26,6 +27,7 @@ class Journal extends Model
     protected $fillable = [
         'date',
         'type',
+        'slug',
         'amount',
         'reference_type',
         'reference_id',
