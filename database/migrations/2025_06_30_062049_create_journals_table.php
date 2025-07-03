@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
             $table->date('date');
+            $table->string('voucher_no');
             $table->enum('type', ['opening', 'sale', 'due', 'discount', 'vat', 'payment']);
             $table->decimal('amount', 10, 2);
             $table->string('reference_type');

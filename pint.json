@@ -1,7 +1,7 @@
 {
     "preset": "laravel",
     "notPath": [
-        "app/Actions/DeleteAction.php"
+        "app/Services/SaleService.php"
     ],
     "rules": {
         "array_push": true,

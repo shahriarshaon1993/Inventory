@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $discount
  * @property string $vat
+ * @property string $invoice_no
  * @property string $subtotal
  * @property string $total_amount
  * @property string $paid_amount
@@ -32,6 +33,7 @@ final class Sale extends Model
         'date',
         'discount',
         'subtotal',
+        'invoice_no',
         'total_amount',
         'paid_amount',
         'due_amount',

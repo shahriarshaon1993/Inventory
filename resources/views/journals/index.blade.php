@@ -22,6 +22,12 @@
                         #
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Voucher No.
+                    </th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Sales invoice
+                    </th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Date
                     </th>
                     <th v-if="search" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -44,6 +50,12 @@
                     <tr class="border-b [&:not(:last-child)]:border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ ++$key }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $group->voucher_no }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $group->invoice_no ?? '--' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $group->date->format('M d, Y') }}

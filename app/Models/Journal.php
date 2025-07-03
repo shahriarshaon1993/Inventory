@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $amount
  * @property string $slug
+ * @property string $voucher_no
  * @property int $reference_id
  * @property string $reference_type
  * @property Carbon|null $date
@@ -31,6 +32,7 @@ final class Journal extends Model
         'type',
         'slug',
         'amount',
+        'voucher_no',
         'reference_type',
         'reference_id',
     ];

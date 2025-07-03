@@ -10,6 +10,8 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Stock;
+use App\Services\InvoiceGenerator;
+use App\Services\SaleService;
 use Illuminate\Support\Facades\DB;
 
 final class CreateSale
@@ -51,9 +53,12 @@ final class CreateSale
         $vatAmount = ($subtotalAfterDiscount * $attributes['vat']) / 100;
         $totalAmount = $subtotalAfterDiscount + $vatAmount;
 
+        $invoice = InvoiceGenerator::generate('sales', 'invoice_no', 'INV');
+
         return [
             'vat' => $attributes['vat'],
             'date' => $attributes['date'],
+            'invoice_no' => $invoice,
             'subtotal' => $subtotal,
             'discount' => $attributes['discount'],
             'vat_amount' => $vatAmount,
@@ -71,6 +76,7 @@ final class CreateSale
         return Sale::create([
             'vat' => $saleData['vat'],
             'date' => $saleData['date'],
+            'invoice_no' => $saleData['invoice_no'],
             'subtotal' => $saleData['subtotal'],
             'discount' => $saleData['discount'],
             'vat_amount' => $saleData['vat_amount'],
@@ -96,7 +102,7 @@ final class CreateSale
                 'total' => $item['quantity'] * $item['unit_price'],
             ]);
 
-            $this->updateProductStock($product, $item['quantity'], $date);
+            $this->updateProductStock($product, (int) $item['quantity'], $date);
         }
     }
 
@@ -131,9 +137,12 @@ final class CreateSale
 
     private function createJournalEntries(Sale $sale, array $saleData): void
     {
+        $voucher = InvoiceGenerator::generate('journals', 'voucher_no', 'JV');
+
         $journalEntries = [
             [
                 'date' => $saleData['date'],
+                'voucher_no' => $voucher,
                 'type' => 'sale',
                 'amount' => $saleData['subtotal'],
                 'slug' => 'sale',
@@ -144,6 +153,7 @@ final class CreateSale
             ],
             [
                 'date' => $saleData['date'],
+                'voucher_no' => $voucher,
                 'type' => 'discount',
                 'amount' => $saleData['discount'] < 0 ? 0 : $saleData['discount'],
                 'slug' => 'sale',
@@ -154,6 +164,7 @@ final class CreateSale
             ],
             [
                 'date' => $saleData['date'],
+                'voucher_no' => $voucher,
                 'type' => 'vat',
                 'amount' => $saleData['vat_amount'],
                 'slug' => 'sale',
@@ -164,6 +175,7 @@ final class CreateSale
             ],
             [
                 'date' => $saleData['date'],
+                'voucher_no' => $voucher,
                 'type' => 'payment',
                 'amount' => $saleData['paid_amount'],
                 'slug' => 'sale',
@@ -174,6 +186,7 @@ final class CreateSale
             ],
             [
                 'date' => $saleData['date'],
+                'voucher_no' => $voucher,
                 'type' => 'due',
                 'amount' => $saleData['due_amount'] < 0 ? 0 : $saleData['due_amount'],
                 'slug' => 'sale',

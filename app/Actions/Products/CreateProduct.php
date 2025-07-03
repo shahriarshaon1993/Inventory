@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Products;
 
 use App\Models\Product;
+use App\Services\InvoiceGenerator;
 use Illuminate\Support\Facades\DB;
 
 final class CreateProduct
@@ -20,6 +21,8 @@ final class CreateProduct
             $product = Product::create($attributes);
 
             if ($product->current_stock > 0) {
+                $voucher = InvoiceGenerator::generate('journals', 'voucher_no', 'JV');
+
                 $product->stocks()->create([
                     'date' => now()->toDateString(),
                     'type' => 'opening',
@@ -29,6 +32,7 @@ final class CreateProduct
 
                 $product->journals()->create([
                     'date' => now()->toDateString(),
+                    'voucher_no' => $voucher,
                     'type' => 'opening',
                     'amount' => $product->current_stock * $product->purchase_price,
                     'slug' => 'product',

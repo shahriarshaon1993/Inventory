@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->date('date');
+            $table->string('invoice_no');
             $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('vat', 10, 2)->default(0);
             $table->decimal('subtotal', 10, 2)->comment('after discount');

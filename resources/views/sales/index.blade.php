@@ -26,6 +26,9 @@
                         #
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Invoice
+                    </th>
+                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Subtotal
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -57,6 +60,9 @@
                     <tr class="border-b [&:not(:last-child)]:border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $loop->iteration }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $sale->invoice_no }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $sale->subtotal }}
