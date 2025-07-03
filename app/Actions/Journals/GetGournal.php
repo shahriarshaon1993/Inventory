@@ -5,11 +5,16 @@ namespace App\Actions\Journals;
 use App\Models\Journal;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class GetGournal
 {
+    /**
+     * Retrun journal group ways.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return LengthAwarePaginator<int, Journal>
+     */
     public function handle(Request $request): LengthAwarePaginator
     {
         // Pagination settings

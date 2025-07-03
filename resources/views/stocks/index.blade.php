@@ -25,13 +25,10 @@
                         Product
                     </th>
                     <th v-if="search" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Type
+                        Sold
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Quantity
-                    </th>
-                    <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                        Price
+                        Stock
                     </th>
                     <th class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Date
@@ -43,28 +40,25 @@
             </thead>
 
             <tbody>
-                @forelse ($stocks as $stock)
+                @forelse ($groups as $key => $group)
                     <tr class="border-b [&:not(:last-child)]:border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $loop->iteration }}
+                            {{ ++$key }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $stock->product->name }}
+                            {{ $group->product_name }}
                         </td>
                         <td v-if="search" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ ucfirst($stock->type) }}
+                            {{ abs($group->sold) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $stock->quantity }}
+                            {{ $group->current_stock }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $stock->price }}
+                            {{ \Carbon\Carbon::parse($group->date)->format('M d, Y') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $stock->date->format('M d, Y') }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $stock->created_at->format('M d, Y') }}
+                            {{ \Carbon\Carbon::parse($group->created_at)->format('M d, Y') }}
                         </td>
                     </tr>
                 @empty
@@ -74,7 +68,7 @@
         </table>
 
         <div class="mt-4">
-            {{ $stocks->links() }}
+            {{ $groups->links() }}
         </div>
     </div>
 </x-app-layout>

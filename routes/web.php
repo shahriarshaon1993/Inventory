@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('sale-items', SaleItemController::class)->name('sale-items.index');
 
-    Route::get('stocks', StockController::class)->name('stocks.index');
+    Route::get('stocks', [StockController::class, 'index'])->name('stocks.index');
 
     Route::get('payments', PaymentController::class)->name('payments.index');
 
