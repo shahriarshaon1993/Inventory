@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-class Sale extends Model
+final class Sale extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -36,6 +38,16 @@ class Sale extends Model
     ];
 
     /**
+     * Relation with journals
+     *
+     * @return MorphMany<Journal, Payment>
+     */
+    public function journals(): MorphMany
+    {
+        return $this->morphMany(Journal::class, 'reference');
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -45,15 +57,5 @@ class Sale extends Model
         return [
             'date' => 'date',
         ];
-    }
-
-    /**
-     * Relation with journals
-     * 
-     * @return MorphMany<Journal, Payment>
-     */
-    public function journals(): MorphMany
-    {
-        return $this->morphMany(Journal::class, 'reference');
     }
 }

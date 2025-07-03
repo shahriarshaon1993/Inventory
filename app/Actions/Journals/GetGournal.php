@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Journals;
 
 use App\Models\Journal;
@@ -7,12 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
-class GetGournal
+final class GetGournal
 {
     /**
      * Retrun journal group ways.
-     * 
-     * @param \Illuminate\Http\Request $request
+     *
      * @return LengthAwarePaginator<int, Journal>
      */
     public function handle(Request $request): LengthAwarePaginator
@@ -22,12 +23,12 @@ class GetGournal
         $perPage = 15;
 
         $groups = Journal::query()->select(
-                'slug',
-                'reference_id',
-                DB::raw('COUNT(*) as total'),
-                DB::raw('MAX(date) as date'),
-                DB::raw('MAX(created_at) as created_at')
-            )
+            'slug',
+            'reference_id',
+            DB::raw('COUNT(*) as total'),
+            DB::raw('MAX(date) as date'),
+            DB::raw('MAX(created_at) as created_at')
+        )
             ->groupBy('slug', 'reference_id')
             ->orderByDesc(DB::raw('MAX(created_at)'))
             ->get();

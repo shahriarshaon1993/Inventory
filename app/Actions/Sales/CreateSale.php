@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Sales;
 
 use App\Models\Journal;
@@ -10,7 +12,7 @@ use App\Models\SaleItem;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
 
-class CreateSale
+final class CreateSale
 {
     /**
      * Store a newly created sale.
@@ -30,21 +32,18 @@ class CreateSale
             }
 
             $this->createJournalEntries($sale, $saleData);
-            
+
             return $sale;
         });
     }
 
     /**
      * Calculate sale amounts
-     * 
-     * @param array $attributes
-     * @return array
      */
     private function calculateSaleAmounts(array $attributes): array
     {
         $subtotal = array_sum(array_map(
-            fn($product) => $product['quantity'] * $product['unit_price'],
+            fn ($product) => $product['quantity'] * $product['unit_price'],
             $attributes['products']
         ));
 
@@ -66,9 +65,6 @@ class CreateSale
 
     /**
      * A new sales create.
-     * 
-     * @param array $saleData
-     * @return Sale
      */
     private function createSaleRecord(array $saleData): Sale
     {
@@ -80,23 +76,18 @@ class CreateSale
             'vat_amount' => $saleData['vat_amount'],
             'total_amount' => $saleData['total_amount'],
             'paid_amount' => $saleData['paid_amount'],
-            'due_amount' => $saleData['due_amount'] < 0 ? 0: $saleData['due_amount'],
+            'due_amount' => $saleData['due_amount'] < 0 ? 0 : $saleData['due_amount'],
         ]);
     }
 
     /**
      * Creare sale items
-     * 
-     * @param \App\Models\Sale $sale
-     * @param array $products
-     * @param string $date
-     * @return void
      */
     private function createSaleItems(Sale $sale, array $products, string $date): void
     {
         foreach ($products as $item) {
             $product = Product::findOrFail($item['product_id']);
-            
+
             SaleItem::create([
                 'sale_id' => $sale->id,
                 'product_id' => $product->id,
@@ -111,11 +102,6 @@ class CreateSale
 
     /**
      * Manage product stocks
-     * 
-     * @param \App\Models\Product $product
-     * @param int $quantity
-     * @param string $date
-     * @return void
      */
     private function updateProductStock(Product $product, int $quantity, string $date): void
     {
@@ -132,10 +118,6 @@ class CreateSale
 
     /**
      * Create sale payment.
-     * 
-     * @param \App\Models\Sale $sale
-     * @param array $saleData
-     * @return void
      */
     private function createPayment(Sale $sale, array $saleData): void
     {
@@ -143,7 +125,7 @@ class CreateSale
             'sale_id' => $sale->id,
             'date' => $saleData['date'],
             'amount' => $saleData['paid_amount'],
-            'method' => 'cash'
+            'method' => 'cash',
         ]);
     }
 
@@ -163,7 +145,7 @@ class CreateSale
             [
                 'date' => $saleData['date'],
                 'type' => 'discount',
-                'amount' => $saleData['discount'] < 0 ? 0: $saleData['discount'],
+                'amount' => $saleData['discount'] < 0 ? 0 : $saleData['discount'],
                 'slug' => 'sale',
                 'reference_type' => Sale::class,
                 'reference_id' => $sale->id,
@@ -193,7 +175,7 @@ class CreateSale
             [
                 'date' => $saleData['date'],
                 'type' => 'due',
-                'amount' => $saleData['due_amount'] < 0 ? 0: $saleData['due_amount'],
+                'amount' => $saleData['due_amount'] < 0 ? 0 : $saleData['due_amount'],
                 'slug' => 'sale',
                 'reference_type' => Sale::class,
                 'reference_id' => $sale->id,
@@ -203,6 +185,6 @@ class CreateSale
         ];
 
         // Insert only non-zero entries
-        Journal::insert(array_filter($journalEntries, fn($entry) => $entry['amount'] != 0));
+        Journal::insert(array_filter($journalEntries, fn ($entry) => $entry['amount'] !== 0));
     }
 }

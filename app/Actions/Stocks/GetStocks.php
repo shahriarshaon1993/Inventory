@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Stocks;
 
-use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
-class GetStocks
+final class GetStocks
 {
     public function handle(Request $request): LengthAwarePaginator
     {
@@ -15,7 +16,7 @@ class GetStocks
         $page = $request->get('page', 1);
         $perPage = 15;
 
-       $groups = DB::table('stocks')
+        $groups = DB::table('stocks')
             ->select(
                 'stocks.product_id',
                 'products.name as product_name',

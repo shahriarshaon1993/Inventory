@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Actions\Stocks\GetStocks;
-use App\Models\Stock;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
-class StockController extends Controller
+final class StockController
 {
     /**
      * Handle the incoming request.
      */
-    public function index(Request $request, GetStocks $action)
+    public function index(Request $request, GetStocks $action): View
     {
         $stocks = $action->handle($request);
 

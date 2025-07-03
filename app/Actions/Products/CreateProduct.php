@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Products;
 
-use App\Models\Journal;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
-class CreateProduct
+final class CreateProduct
 {
     /**
      * Store a newly created product.

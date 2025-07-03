@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Product;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Foundation\Http\FormRequest;
 
 abstract class BaseProductRequest extends FormRequest
 {
@@ -12,7 +14,7 @@ abstract class BaseProductRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function commonRules(): array
+    final public function commonRules(): array
     {
         return [
             'purchase_price' => ['required', 'string'],

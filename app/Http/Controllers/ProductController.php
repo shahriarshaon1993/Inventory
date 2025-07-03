@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Actions\Products\CreateProduct;
-use App\Actions\Products\UpdateCreate;
 use App\Actions\Products\UpdateProduct;
-use App\Models\Product;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Models\Product;
+use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
-class ProductController extends Controller
+final class ProductController
 {
     /**
      * Display a listing of the resource.
@@ -45,10 +47,10 @@ class ProductController extends Controller
 
             return Redirect::route('products.index')
                 ->with('success', 'Product has been created successfully!');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return Redirect::route('products.index')
-                ->with('error', 'Failed to create product: ' . $e->getMessage());
-        }       
+                ->with('error', 'Failed to create product: '.$e->getMessage());
+        }
     }
 
     /**
@@ -68,8 +70,8 @@ class ProductController extends Controller
             $action->handle($product, $request->validated());
 
             return back()->with('success', 'Product has been updated successfully!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create product: ' . $e->getMessage());
+        } catch (Exception $e) {
+            return back()->with('error', 'Failed to create product: '.$e->getMessage());
         }
     }
 
@@ -80,7 +82,7 @@ class ProductController extends Controller
     {
         if ($product->stocks()->exists()) {
             return back()->with([
-                'woring' => 'Cannot delete product with stock history.'
+                'woring' => 'Cannot delete product with stock history.',
             ]);
         }
 

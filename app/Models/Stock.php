@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-class Stock extends Model
+final class Stock extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -24,12 +26,22 @@ class Stock extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'product_id', 
+        'product_id',
         'type',
         'quantity',
         'price',
         'date',
     ];
+
+    /**
+     * Stock belongs to product
+     *
+     * @return BelongsTo<Product, Stock>
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -41,15 +53,5 @@ class Stock extends Model
         return [
             'date' => 'date',
         ];
-    }
-
-    /**
-     * Stock belongs to product
-     * 
-     * @return BelongsTo<Product, Stock>
-     */
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
     }
 }

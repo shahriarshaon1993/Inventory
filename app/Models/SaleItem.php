@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-class SaleItem extends Model
+final class SaleItem extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -33,7 +35,7 @@ class SaleItem extends Model
 
     /**
      * Sale items belongs to product
-     * 
+     *
      * @return BelongsTo<Product, SaleItem>
      */
     public function product(): BelongsTo
@@ -43,7 +45,7 @@ class SaleItem extends Model
 
     /**
      * Sale items belongs to sale
-     * 
+     *
      * @return BelongsTo<Sale, SaleItem>
      */
     public function sale(): BelongsTo

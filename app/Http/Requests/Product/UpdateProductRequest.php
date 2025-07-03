@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Product;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
 
-class UpdateProductRequest extends BaseProductRequest
+final class UpdateProductRequest extends BaseProductRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use Database\Factories\ProductFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -19,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-class Product extends Model
+final class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
     use HasFactory;
@@ -34,12 +36,12 @@ class Product extends Model
         'purchase_price',
         'sell_price',
         'opening_stock',
-        'current_stock'
+        'current_stock',
     ];
 
     /**
      * Relation with stocks
-     * 
+     *
      * @return HasMany<Stock, Product>
      */
     public function stocks(): HasMany
@@ -49,7 +51,7 @@ class Product extends Model
 
     /**
      * Relation with journals
-     * 
+     *
      * @return MorphMany<Journal, Product>
      */
     public function journals(): MorphMany

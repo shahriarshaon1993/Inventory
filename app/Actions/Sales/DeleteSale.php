@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Sales;
 
 use App\Models\Journal;
@@ -7,7 +9,7 @@ use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Stock;
 
-class DeleteSale
+final class DeleteSale
 {
     public function handle(Sale $sale): void
     {
@@ -29,8 +31,8 @@ class DeleteSale
 
         // Delete journal records
         Journal::where('reference_type', Sale::class)
-                ->where('reference_id', $sale->id)
-                ->delete();
+            ->where('reference_id', $sale->id)
+            ->delete();
 
         // Delete the sale
         $sale->delete();

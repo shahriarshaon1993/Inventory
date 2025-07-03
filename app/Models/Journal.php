@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property Carbon|null $updated_at
  * @property 'opening'|'sale'|'due'|'discount'|'vat'|'payment' $type
  */
-class Journal extends Model
+final class Journal extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -34,6 +36,16 @@ class Journal extends Model
     ];
 
     /**
+     *  Get the parent reference model (sale, payment, etc.).
+     *
+     * @return MorphTo<Model, Journal>
+     */
+    public function reference(): MorphTo
+    {
+        return $this->morphTo(__FUNCTION__, 'reference_type', 'reference_id');
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -43,15 +55,5 @@ class Journal extends Model
         return [
             'date' => 'date',
         ];
-    }
-
-    /**
-     *  Get the parent reference model (sale, payment, etc.).
-     * 
-     * @return MorphTo<Model, Journal>
-     */
-    public function reference(): MorphTo
-    {
-        return $this->morphTo(__FUNCTION__, 'reference_type', 'reference_id');
     }
 }

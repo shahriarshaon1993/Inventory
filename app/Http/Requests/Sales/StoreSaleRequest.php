@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Sales;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSaleRequest extends FormRequest
+final class StoreSaleRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

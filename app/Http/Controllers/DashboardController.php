@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Actions\Reports\CalculateProfit;
-use App\Models\Journal;
-use App\Models\SaleItem;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
-class DashboardController extends Controller
+final class DashboardController
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, CalculateProfit $action)
+    public function __invoke(Request $request, CalculateProfit $action): JsonResponse|View
     {
         $from = $request->input('from');
         $to = $request->input('to');

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class SaleItemController extends Controller
+final class SaleItemController
 {
     /**
      * Handle the incoming request.
@@ -16,7 +18,7 @@ class SaleItemController extends Controller
         return view('sale_items.index', [
             'salesItems' => SaleItem::query()
                 ->with(['product', 'sale'])
-                ->latest()->paginate(15)
+                ->latest()->paginate(15),
         ]);
     }
 }

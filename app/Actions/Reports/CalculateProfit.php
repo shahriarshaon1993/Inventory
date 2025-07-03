@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Reports;
 
 use App\Models\Journal;
 use App\Models\SaleItem;
 
-class CalculateProfit
+final class CalculateProfit
 {
     /**
      * Calculate profit, sale, expenses.
-     * 
-     * @param string|null $from
-     * @param string|null $to
-     * @return array
      */
-    public function handle(string|null $from, string|null $to): array
+    public function handle(?string $from, ?string $to): array
     {
         $journalQuery = Journal::query();
         $saleItemQuery = SaleItem::with('product')->whereHas('sale');
