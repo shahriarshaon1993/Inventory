@@ -37,7 +37,7 @@ final class GetGournal
                     ->where('journals.slug', '=', 'sale');
             })
             ->groupBy('journals.slug', 'journals.voucher_no', 'journals.reference_id', 'sales.invoice_no')
-            ->orderByDesc(DB::raw('MAX(created_at)'))
+            ->orderByDesc(DB::raw('MAX(journals.created_at)'))
             ->get();
 
         return new LengthAwarePaginator(
